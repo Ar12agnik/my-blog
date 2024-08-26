@@ -1,0 +1,11 @@
+{% extends "blogs/base.html" %}
+{% block title %}
+create blog
+{% endblock title %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form method='POST' action='{% url "create_blog" %}' enctype="multipart/form-data">
+    {% csrf_token %}
+    {% crispy blog_form %}
+</form>
+{%endblock%}

@@ -1,0 +1,70 @@
+{% extends "blogs/base.html" %}
+
+{% block title %}
+    Home
+{% endblock title %}
+{% block login %}
+{% if auth %}
+<a class="btn btn-success" href="#">Profile</a>
+<a class="btn btn-danger" href="#">LogOut</a>
+{% else %}
+{{auth}}
+{{ block.super }}
+{% endif %}
+{% endblock login %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-12">
+            <div class="card text-center mb-4">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img src="{{ blog.user.user_profile_image.url }}" alt="Profile Picture" class="mr-2 rounded-circle" style="width: 32px; height: 32px;">
+                        <span>{{ blog.user }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.title }}</h5>
+                    {% if blog.picture %}
+                        <img src="{{ blog.picture.url }}" alt="Blog Image" class="card-img-top mb-3" style="width: 100%; height: auto; max-width: 486px; max-height: 585px;">
+                    {% endif %}
+                    <p class="card-text">{{ blog.caption }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ blog.created }}
+                </div>
+            </div>
+
+            <h2 class="mt-4">Comments</h2>
+            {% if user.is_authenticated  %}
+            <form method='POST'>
+                {% csrf_token %}
+                {% crispy comment_form %}
+            </form>
+            {% else %}
+            <div class="alert alert-danger" role="alert">
+
+                 <a href="#" class="alert-link">Login</a> to comment on this article.
+              </div>
+            {% endif %}
+            {% for comment in comments %}
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ comment.user.user_profile_image.url }}" alt="Profile Picture" class="mr-2 rounded-circle" style="width: 32px; height: 32px;">
+                            <span>{{ comment.user }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ comment.comment }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{ comment.created }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

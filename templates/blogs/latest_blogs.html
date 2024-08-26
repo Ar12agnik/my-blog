@@ -1,0 +1,7 @@
+{% for blog in blogs %}
+
+
+
+    <a href='{% url "read_article" blog.id %}' class="card-link d-block mb-2">{{blog}}</a>
+
+{% endfor %}

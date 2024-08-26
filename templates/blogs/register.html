@@ -1,0 +1,70 @@
+{% extends "blogs/base.html" %}
+{% block content %}
+{% load socialaccount %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <form class="text-center" method="POST" action="{% url 'register' %}">
+        {% if msg %}
+        <p style="color: red;"> {{ msg }}</p>
+        {% endif %}
+        <div style="border: 1px solid red;"></div>
+        {% csrf_token %}
+
+        <!-- Full Name input -->
+        <div class="mb-4">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" id="full_name" name="full_name" class="form-control" required />
+        </div>
+
+        <!-- Email as Username input -->
+        <div class="mb-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required />
+        </div>
+        <!--Phone Number-->
+        <div class="mb-4">
+            <label for="username" class="form-label">Phone Number</label>
+            <input type="text" id="username" name="phone" class="form-control" required />
+        </div>
+
+        <!-- Password input -->
+        <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required />
+        </div>
+
+        <!-- Confirm Password input -->
+        <div class="mb-4">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" required />
+        </div>
+
+        <!-- Terms and Conditions Checkbox -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="agree" id="terms" name="terms" required />
+                    <label class="form-check-label" for="terms"> I agree to the terms and conditions </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register button -->
+        <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+
+        <!-- Continue with Google button -->
+        <div class="text-center">
+            <p>or continue with:</p>
+            <a href='{% provider_login_url "google" %}?next=/'>
+                <button data-mdb-ripple-init type="button" class="btn btn-outline-primary btn-lg px-5 py-3 rounded-pill">
+                    <i class="fab fa-google fa-lg me-2"></i> Continue with Google
+                </button>
+            </a>
+        </div>
+    </form>
+</div>
+<script>
+    import { Ripple, initMDB } from "mdb-ui-kit";
+
+    initMDB({ Ripple });
+</script>
+{% endblock content %}
